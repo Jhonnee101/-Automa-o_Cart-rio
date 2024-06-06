@@ -12,6 +12,9 @@ def extrair_matriculas(caminho_arquivo):
         if "==" in texto:
             matricula = texto.split("==")[1].strip()
             matriculas.append(matricula)
+            document.save('teste', 1,'.docx')
+
+
 
     return matriculas
 
