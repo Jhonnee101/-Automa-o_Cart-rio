@@ -6,14 +6,14 @@ workbook = xl.load_workbook("doc.xlsx")
 planilha = workbook.active
 
 for rows in planilha.iter_rows(min_row=2):
-    nome, matricula = rows[0].value, rows[1].value
+    mat = rows[0].value
+    texto = rows[1].value
 
-    # Crie um novo documento .docx
+
     doc = docx.Document()
-    doc.add_paragraph(f"Nome: {nome}")
-    doc.add_paragraph(f"Matrícula: {matricula}")
+    doc.add_paragraph(f"Matrícula: {texto}")
 
-    nome_arquivo = f"{matricula}.docx"
+    nome_arquivo = f"{mat} FALTA CONFERIR.docx"
     doc.save(nome_arquivo)
 
 
