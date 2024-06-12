@@ -3,10 +3,10 @@ from func import *
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 
-root = ttk.Window("Extrator de Matriculas V2")
+root = ttk.Window("Extrator de Matriculas V3")
 style = ttk.Style("darkly")
 
-label = ttk.Label(root, text="Extrator de Matriculas V2")
+label = ttk.Label(root, text="Extrator de Matriculas V3")
 label.pack(pady=20)
 label.config(font=("Arial", 20, "bold"))
 
