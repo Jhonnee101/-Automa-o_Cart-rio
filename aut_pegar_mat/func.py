@@ -1,12 +1,14 @@
 import pyautogui
 import time
 from openpyxl import Workbook
+import pyperclip  # Importa a biblioteca pyperclip
+
 
 # Inicializa o contador e a lista de matrículas
 cont = 0
 matriculas = []
 
-# Recebe o número31 inicial da matrícula e a quantidade de matrículas a copiar
+# Recebe o número inicial da matrícula e a quantidade de matrículas a copiar
 mat = int(input("Digite a partir de qual matricula vc quer buscar: "))
 contador = int(input("Digite quantas matriculas voce quer copiar: "))
 
@@ -16,43 +18,42 @@ while cont < contador:
     mat += 1
     matriculas.append(str(mat))  # Converte o número da matrícula para string
 
-# Converte a lista de matrículas em uma tupla
-matriculas_tupla = tuple(matriculas)
+app_coords = {'campo_busca': (359, 365), 'botao_buscar': (937, 386), 'campo_resultado': (480, 403)}
 
-# Coordenadas dos elementos da interface do aplicativo
-app_coords = {'campo_busca': (537, 314), 'botao_buscar': (937, 386), 'campo_resultado': (1708, 322)}
-
-# Inicializa o livro do Excel
 wb = Workbook()
 ws = wb.active
 
-# Função para buscar e copiar matrícula
+
 def buscar_matricula(matricula):
     time.sleep(2)
-    # Clica no campo de busca e digita a matrícula
     pyautogui.click(app_coords['campo_busca'])
     pyautogui.typewrite(matricula)
     pyautogui.click(app_coords['botao_buscar'])
     
-    # Espera o resultado ser exibido
+
     time.sleep(2)
     
-    # Clica no campo do resultado e copia o conteúdo
+
     pyautogui.click(app_coords['campo_resultado'])
     pyautogui.hotkey('ctrl', 'c')
     
-    # Espera um pouco para garantir que o texto foi copiado
+
     time.sleep(1)
     
-    # Retorna o conteúdo copiado da área de transferência
-    return pyautogui.hotkey('ctrl', 'v')
 
-# Loop para buscar cada matrícula e salvar no Excel
-for matricula in matriculas_tupla:
+    conteudo_copiado = pyperclip.paste()
+    return conteudo_copiado
+
+
+conteudos_copiados = []
+
+for matricula in matriculas:
     resultado = buscar_matricula(matricula)
+    conteudos_copiados.append(resultado)  
     ws.append([matricula, resultado])
 
-# Salva o arquivo do Excel
-wb.save('matriculas.xlsx')
 
-print(matriculas)
+wb.save('Matriculas.xlsx')
+
+
+
