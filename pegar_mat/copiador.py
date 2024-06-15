@@ -2,9 +2,10 @@ import pyautogui
 import time
 from openpyxl import Workbook
 import pyperclip
-import tkinter as tk
 from tkinter import messagebox
 from tkinter import filedialog
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
 
 # Inicializa a lista de matrículas
 matriculas = []
@@ -14,10 +15,12 @@ app_coords = {'campo_montar': (526, 40),'campo_mat': (265, 206), 'buscar_mat': (
 
 # Função para buscar a matrícula
 def buscar_matricula(matricula):
-    time.sleep(2)
     pyautogui.click(app_coords['campo_montar'])
     time.sleep(0.5)
     pyautogui.click(app_coords['campo_mat'])
+    time.sleep(0.3)
+    pyautogui.press('backspace')
+    time.sleep(0.3)
     pyautogui.typewrite(matricula)
     pyautogui.click(app_coords['buscar_mat'])
     time.sleep(2.5)
@@ -51,6 +54,7 @@ def salvar_matriculas():
         wb = Workbook()
         ws = wb.active
         conteudos_copiados = []
+        time.sleep(2)
         for matricula in matriculas:
             resultado = buscar_matricula(matricula)
             conteudos_copiados.append(resultado)
@@ -68,24 +72,28 @@ def salvar_matriculas():
         messagebox.showerror("Erro", "Por favor, digite números inteiros válidos.")
 
 # Criação da interface gráfica
-root = tk.Tk()
-root.title("Copiador de Matrículas")
+root = ttk.Window()
+style = ttk.Style("vapor")
+root.title("Copiar Matrículas v2")
+label = ttk.Label(root, text="Copiar Matrículas v2")
+label.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
+label.config(font=('Courier New',16, 'bold'))
 
 # Campo de entrada para matrícula
-label_mat = tk.Label(root, text="Matrícula:")
-label_mat.grid(row=0, column=0, padx=10, pady=10)
-entry_mat = tk.Entry(root)
-entry_mat.grid(row=0, column=1, padx=10, pady=10)
+label_mat = ttk.Label(root, text="Matrícula:")
+label_mat.grid(row=1, column=0, padx=10, pady=10)
+entry_mat = ttk.Entry(root)
+entry_mat.grid(row=1, column=1, padx=10, pady=10)
 
 # Campo de entrada para quantidade
-label_quant = tk.Label(root, text="Quantidade:")
-label_quant.grid(row=1, column=0, padx=10, pady=10)
-entry_quant = tk.Entry(root)
-entry_quant.grid(row=1, column=1, padx=10, pady=10)
+label_quant = ttk.Label(root, text="Quantidade:")
+label_quant.grid(row=2, column=0, padx=10, pady=10)
+entry_quant = ttk.Entry(root)
+entry_quant.grid(row=2, column=1, padx=10, pady=10)
 
 # Botão para salvar matrículas
-button_salvar = tk.Button(root, text="Salvar Matrículas", command=salvar_matriculas)
-button_salvar.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
+button_salvar = ttk.Button(root, text="Salvar Matrículas", command=salvar_matriculas, bootstyle=PRIMARY)
+button_salvar.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
 
 # Inicia o loop principal da interface gráfica
 root.mainloop()

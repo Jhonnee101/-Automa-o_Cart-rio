@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['copiador.py'],
+    ['Copiador.py'],
     pathex=[],
     binaries=[],
     datas=[],
@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='copiador',
+    name='Copiador',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

@@ -4,7 +4,7 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 
 root = ttk.Window("Extrator de Matriculas V3")
-style = ttk.Style("darkly")
+style = ttk.Style("vapor")
 
 label = ttk.Label(root, text="Extrator de Matriculas V3")
 label.pack(pady=20)
