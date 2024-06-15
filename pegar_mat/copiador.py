@@ -26,11 +26,11 @@ def buscar_matricula(matricula):
     pyautogui.click(app_coords['buscar_mat'])
     time.sleep(2.5)
     pyautogui.press('enter')
-    time.sleep(1)
+    time.sleep(0.8)
     pyautogui.click(app_coords['campo_copiar'])
-    time.sleep(1)
+    time.sleep(0.8)
     pyautogui.hotkey('ctrl', 'c')
-    time.sleep(1)
+    time.sleep(0.8)
     conteudo_copiado = pyperclip.paste()
     return conteudo_copiado
 
