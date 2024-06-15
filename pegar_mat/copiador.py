@@ -16,20 +16,21 @@ app_coords = {'campo_montar': (526, 40),'campo_mat': (265, 206), 'buscar_mat': (
 # Função para buscar a matrícula
 def buscar_matricula(matricula):
     pyautogui.click(app_coords['campo_montar'])
-    time.sleep(0.5)
+    time.sleep(1)
     pyautogui.click(app_coords['campo_mat'])
-    time.sleep(0.3)
+    time.sleep(0.8)
+    pyautogui.hotkey('ctrl', 'a')
     pyautogui.press('backspace')
-    time.sleep(0.3)
+    time.sleep(0.8)
     pyautogui.typewrite(matricula)
     pyautogui.click(app_coords['buscar_mat'])
     time.sleep(2.5)
     pyautogui.press('enter')
-    time.sleep(0.5)
+    time.sleep(1)
     pyautogui.click(app_coords['campo_copiar'])
-    time.sleep(0.2)
+    time.sleep(1)
     pyautogui.hotkey('ctrl', 'c')
-    time.sleep(0.4)
+    time.sleep(1)
     conteudo_copiado = pyperclip.paste()
     return conteudo_copiado
 
