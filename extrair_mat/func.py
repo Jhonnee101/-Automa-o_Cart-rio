@@ -51,7 +51,7 @@ def extrair_matriculas():
             texto_atualizado = texto_atualizado.replace(string_especifica, '\n\n')
 
             # Substitui cada string da lista string_especifica2 por uma nova linha
-            strings_especificas2 = ['Proprietária: ', 'Proprietário: ', 'Proprietaria: ', 'Proprietario: ']
+            strings_especificas2 = ['Proprietária: ', 'Proprietário: ', 'Proprietaria: ', 'Proprietários: ', 'Proprietarios: ', 'Proprietárias: ', 'Proprietarias: ']
             for string in strings_especificas2:
                 texto_atualizado = texto_atualizado.replace(string, '\n\n')
 
