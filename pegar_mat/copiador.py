@@ -64,6 +64,12 @@ def salvar_matriculas():
         # Pergunta ao usuário onde salvar o arquivo
         arquivo = filedialog.asksaveasfilename(defaultextension=".xlsx",
                                                filetypes=[("Planilhas do Excel", "*.xlsx"), ("Todos os arquivos", "*.*")])
+        #Necessario revisar o sistema de salvamento de arquivos
+        #Decrementar -1 na quantidade de matriculas
+        
+
+
+
         if arquivo:  # Se um arquivo foi selecionado
             wb.save(arquivo)
             messagebox.showinfo("Sucesso", "Matrículas salvas com sucesso!")
