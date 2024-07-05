@@ -38,7 +38,7 @@ def buscar_matricula(matricula):
 def salvar_matriculas():
     try:
         # Recebe o número inicial da matrícula e a quantidade de matrículas a copiar
-        mat = int(entry_mat.get())
+        mat = int(entry_mat.get()) -1
         contador = int(entry_quant.get())
         
         # Verifica se os valores são válidos
