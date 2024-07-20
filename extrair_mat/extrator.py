@@ -1,12 +1,12 @@
-from tkinter import messagebox
-from tkinter import filedialog
-import openpyxl as xl
-import docx
 import re
-from docx.shared import Pt
-from docx.enum.text import WD_ALIGN_PARAGRAPH
+import docx
+import openpyxl as xl
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
+from tkinter import messagebox
+from tkinter import filedialog
+from docx.shared import Pt
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 # Definição das variáveis globais
 caminho_entrada = ""
@@ -51,12 +51,12 @@ def extrair_matriculas():
 
             # Substitui qualquer sequência de 20 ou mais '=' por uma nova linha
             padrao = r'={10,}'
-            texto_atualizado = re.sub(padrao, '\n\n', texto_atualizado)
+            texto_atualizado = re.sub(padrao, '\n', texto_atualizado)
 
             # Substitui cada string da lista strings_especificas2 por uma nova linha
-            strings_especificas2 = ['Proprietária: ', 'Proprietário: ', 'Proprietaria: ', 'Proprietários: ', 'Proprietarios: ', 'Proprietárias: ', 'Proprietarias: ','Proprietarias -','Proprietarios -','Proprietaria -','Proprietario -',]
+            strings_especificas2 = ['Proprietária: ', 'Proprietário: ', 'Proprietaria: ', 'Proprietários: ', 'Proprietarios: ', 'Proprietárias: ', 'Proprietarias: ','Proprietarias -','Proprietarios -','Proprietaria -','Proprietario -','Proprietarias- ','Proprietarios- ','Proprietaria- ','Proprietario- ',]
             for string in strings_especificas2:
-                texto_atualizado = texto_atualizado.replace(string, '\n\n')
+                texto_atualizado = texto_atualizado.replace(string, '\n')
 
             doc = docx.Document()
             doc.styles['Normal'].font.name = 'Courier New'
