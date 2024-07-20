@@ -2,8 +2,11 @@ from tkinter import messagebox
 from tkinter import filedialog
 import openpyxl as xl
 import docx
+import re
 from docx.shared import Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
 
 # Definição das variáveis globais
 caminho_entrada = ""
@@ -46,12 +49,12 @@ def extrair_matriculas():
             for string in strings_para_remover:
                 texto_atualizado = texto_atualizado.replace(string, '')
 
-            # Substitui uma string específica por uma nova linha
-            string_especifica = '============================================================='
-            texto_atualizado = texto_atualizado.replace(string_especifica, '\n\n')
+            # Substitui qualquer sequência de 20 ou mais '=' por uma nova linha
+            padrao = r'={10,}'
+            texto_atualizado = re.sub(padrao, '\n\n', texto_atualizado)
 
-            # Substitui cada string da lista string_especifica2 por uma nova linha
-            strings_especificas2 = ['Proprietária: ', 'Proprietário: ', 'Proprietaria: ', 'Proprietários: ', 'Proprietarios: ', 'Proprietárias: ', 'Proprietarias: ']
+            # Substitui cada string da lista strings_especificas2 por uma nova linha
+            strings_especificas2 = ['Proprietária: ', 'Proprietário: ', 'Proprietaria: ', 'Proprietários: ', 'Proprietarios: ', 'Proprietárias: ', 'Proprietarias: ','Proprietarias -','Proprietarios -','Proprietaria -','Proprietario -',]
             for string in strings_especificas2:
                 texto_atualizado = texto_atualizado.replace(string, '\n\n')
 
@@ -67,4 +70,24 @@ def extrair_matriculas():
 
     workbook.close()
     messagebox.showinfo("Concluído", "Processo concluído com sucesso!")
+
+
+root = ttk.Window("Extrator de Matriculas V3")
+style = ttk.Style("vapor")
+
+label = ttk.Label(root, text="Extrator de Matriculas V3")
+label.pack(pady=20)
+label.config(font=("Courier New", 18, "bold"))
+
+
+b1 = ttk.Button(root, text="Selecionar Planilha", command=selecionar_entrada, bootstyle=INFO)
+b1.pack(side=LEFT, padx=5, pady=10)
+
+b2 = ttk.Button(root, text="Selecionar Pasta", command=selecionar_pasta, bootstyle=INFO)
+b2.pack(side=LEFT, padx=5, pady=10)
+
+b3 = ttk.Button(root, text="Iniciar Extração", command=extrair_matriculas, bootstyle=SUCCESS)
+b3.pack(side=LEFT, padx=5, pady=10)
+
+root.mainloop()
 
