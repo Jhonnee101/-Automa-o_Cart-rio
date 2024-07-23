@@ -1,10 +1,10 @@
-import pyautogui
 import time
-from openpyxl import Workbook
 import pyperclip
+import pyautogui
+import ttkbootstrap as ttk
+from openpyxl import Workbook
 from tkinter import messagebox
 from tkinter import filedialog
-import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 
 # Inicializa a lista de matrículas
@@ -19,10 +19,10 @@ def buscar_matricula(matricula):
     time.sleep(1)
     pyautogui.click(app_coords['campo_mat'])
     time.sleep(0.8)
-    pyautogui.hotkey('ctrl', 'a')
+    pyautogui.click(clicks=2)
     pyautogui.press('backspace')
     time.sleep(0.8)
-    pyautogui.typewrite(matricula)
+    pyautogui.typewrite(matricula, interval=0.25)
     pyautogui.click(app_coords['buscar_mat'])
     time.sleep(2.5)
     pyautogui.press('enter')
@@ -64,11 +64,8 @@ def salvar_matriculas():
         # Pergunta ao usuário onde salvar o arquivo
         arquivo = filedialog.asksaveasfilename(defaultextension=".xlsx",
                                                filetypes=[("Planilhas do Excel", "*.xlsx"), ("Todos os arquivos", "*.*")])
-        #Necessario revisar o sistema de salvamento de arquivos
-        #Decrementar -1 na quantidade de matriculas
-        
 
-
+    
 
         if arquivo:  # Se um arquivo foi selecionado
             wb.save(arquivo)

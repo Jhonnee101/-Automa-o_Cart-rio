@@ -2,6 +2,7 @@ import re
 import docx
 import openpyxl as xl
 import ttkbootstrap as ttk
+import tkinter as tk
 from ttkbootstrap.constants import *
 from tkinter import messagebox
 from tkinter import filedialog
@@ -13,7 +14,7 @@ caminho_entrada = ""
 caminho_saida = ""
 strings_para_remover = [
     'CERTIDÃO DE INTEIRO TEOR',
-    'CERTIFICO que atendendo ao requerimento do Sr.(a) , inscrito no CPF/MF sob o nº , conforme protocolo nº xxx, e assim, após ter procedido a competente busca nos Livros e Fichas de Registro de Imóveis deste Serviço Registral, deles verifiquei constar, que a matrícula nº ', 'CERTIFICO finalmente, que é tudo que contém na matrícula supramencionada O referido é verdade, dou fé. Para efeito de lavratura de atos notariais, a presente certidão é válida por 30 (trinta) dias, conforme item IV, art. 1º, do Decreto nº 93.240, de 09.09.1986.'
+    'CERTIFICO que atendendo ao requerimento do Sr.(a) , inscrito no CPF/MF sob o nº , conforme protocolo nº xxx, e assim, após ter procedido a competente busca nos Livros e Fichas de Registro de Imóveis deste Serviço Registral, deles verifiquei constar, que a matrícula nº ', 'CERTIFICO finalmente, que é tudo que contém na matrícula supramencionada O referido é verdade, dou fé. Para efeito de lavratura de atos notariais, a presente certidão é válida por 30 (trinta) dias, conforme item IV, art. 1º, do Decreto nº 93.240, de 09.09.1986.', 'do Livro “2” possui o seguinte teor: – ', '____________________________________', 'DIEGO BORBA DE LEMOS E SILVA'
 ]
 
 # Função para selecionar o arquivo de entrada
@@ -72,22 +73,32 @@ def extrair_matriculas():
     messagebox.showinfo("Concluído", "Processo concluído com sucesso!")
 
 
-root = ttk.Window("Extrator de Matriculas V3")
+
+
+# Cria a janela principal
+root = tk.Tk()
+root.title("Extrator de Matriculas V3")
+root.geometry("400x240")
+
+# Define o estilo
 style = ttk.Style("vapor")
 
+# Adiciona o rótulo
 label = ttk.Label(root, text="Extrator de Matriculas V3")
 label.pack(pady=20)
 label.config(font=("Courier New", 18, "bold"))
 
-
+# Adiciona os botões com orientação vertical
 b1 = ttk.Button(root, text="Selecionar Planilha", command=selecionar_entrada, bootstyle=INFO)
-b1.pack(side=LEFT, padx=5, pady=10)
+b1.pack(side=tk.TOP, padx=5, pady=10)
 
 b2 = ttk.Button(root, text="Selecionar Pasta", command=selecionar_pasta, bootstyle=INFO)
-b2.pack(side=LEFT, padx=5, pady=10)
+b2.pack(side=tk.TOP, padx=5, pady=10)
 
 b3 = ttk.Button(root, text="Iniciar Extração", command=extrair_matriculas, bootstyle=SUCCESS)
-b3.pack(side=LEFT, padx=5, pady=10)
+b3.pack(side=tk.TOP, padx=5, pady=10)
 
+# Inicia o loop principal
 root.mainloop()
+
 
