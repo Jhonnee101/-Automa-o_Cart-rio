@@ -13,3 +13,8 @@
 #Selecionar fonte courier new
 #Selecionar tamanho 16
 #Clicar em salvar
+
+import pyautogui
+import time
+
+print("Iniciando o programa")
