@@ -17,7 +17,7 @@
 
 import time
 import pyautogui
-import openpyxl as xl 
+import openpyxl as xl
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
@@ -30,7 +30,7 @@ cadastrar_apont = {
     'campo_mat': (368, 106),
     'campo_apont': (397, 161),
     'cadastrar_apont': (565, 190),
-    'num_mat': (919, 536), # Número da matrícula
+    'num_mat': (919, 536),  # Número da matrícula
     'verif_averb': (971, 564),
     'selecionar_averbação': (952, 604),
     'num_apont': (1047, 604),
@@ -38,7 +38,7 @@ cadastrar_apont = {
 }
 
 inserir_texto = {
-    'campo_data': (685, 323),
+    'campo_inserir_data': (685, 323),
     'campo_texto': (663, 533),
     'campo_fonte': (739, 473),
     'fonte_courier': (751, 581),
@@ -46,66 +46,73 @@ inserir_texto = {
     'salvar': (1047, 648)
 }
 
-def cadastrar(matricula, num_apont, tipo_de_apont):
-    pyautogui.click(cadastrar_apont['campo_mat'])  # Clicar em matrículas
-    time.sleep(0.5)
-    pyautogui.click(cadastrar_apont['campo_apont']) # Clicar em apontamento
-    time.sleep(0.5)
-    pyautogui.click(cadastrar_apont['cadastrar_apont']) # Clicar em cadastrar apontamento antigo
-    time.sleep(0.5)
-    pyautogui.click(cadastrar_apont['num_mat']) # Clicar no campo de matrícula
-    pyautogui.typewrite(matricula, interval=0.25) # Digitar o número da matrícula
-    time.sleep(0.5)
-    
-    if tipo_de_apont == "1":
-        # Apontamento direto
-        pyautogui.click(cadastrar_apont['num_apont'])  # Clicar no campo de apontamento
-        pyautogui.typewrite(num_apont, interval=0.25) # Digitar o número do apontamento
-    else:
-        # Averbação
-        pyautogui.click(cadastrar_apont['verif_averb']) # Clicar para verificar se é averbação
-        pyautogui.click(cadastrar_apont['selecionar_averbação']) # Selecionar que é averbação
-        pyautogui.click(cadastrar_apont['num_apont']) # Clicar no campo de apontamento
-        pyautogui.typewrite(num_apont, interval=0.25) # Digitar o número do apontamento
+def cadastrar(matricula, num_apont, tipo_de_apont, inserir_data, campo_texto):
+    try:
+        # Cadastro do apontamento
+        pyautogui.click(cadastrar_apont['campo_mat'])
+        time.sleep(0.5)
+        pyautogui.click(cadastrar_apont['campo_apont'])
+        time.sleep(0.5)
+        pyautogui.click(cadastrar_apont['cadastrar_apont'])
+        time.sleep(0.5)
+        pyautogui.click(cadastrar_apont['num_mat'])
+        pyautogui.write(matricula, interval=0.25)  # Usar write para melhor suporte a caracteres especiais
+        time.sleep(0.5)
+        
+        if tipo_de_apont == "1":
+            pyautogui.click(cadastrar_apont['num_apont'])
+            pyautogui.write(num_apont, interval=0.25)  # Usar write para melhor suporte a caracteres especiais
+        else:
+            pyautogui.click(cadastrar_apont['verif_averb'])
+            pyautogui.click(cadastrar_apont['selecionar_averbação'])
+            pyautogui.click(cadastrar_apont['num_apont'])
+            pyautogui.write(num_apont, interval=0.25)  # Usar write para melhor suporte a caracteres especiais
 
-    pyautogui.click(cadastrar_apont['click_cadastrar']) # Clicar em cadastrar apontamento
+        pyautogui.click(cadastrar_apont['click_cadastrar'])
 
-def inserir_texto(campo_data, campo_texto):
-    pyautogui.click(inserir_texto['campo_data'])
-    pyautogui.typewrite(campo_data, interval=0.25)
-    time.sleep(0.5)
-    pyautogui.click(inserir_texto['campo_texto'])
-    pyautogui.typewrite(campo_texto, interval=0.25)
-    pyautogui.hotkey('ctrl', 'a') # Selecionar todo o texto
-    time.sleep(0.5)
-    pyautogui.click(inserir_texto['campo_fonte'])
-    time.sleep(0.2)
-    pyautogui.click(inserir_texto['fonte_courier'])
-    time.sleep(0.5)
-    pyautogui.click(inserir_texto['tamanho_16'])
-    time.sleep(0.5)
-    pyautogui.click(inserir_texto['salvar'])
-    time.sleep(0.5)
+        # Inserção de texto
+        pyautogui.click(inserir_texto['campo_inserir_data'])
+        pyautogui.write(inserir_data, interval=0.25)  # Usar write para melhor suporte a caracteres especiais
+        time.sleep(0.5)
+        pyautogui.click(inserir_texto['campo_texto'])
+        pyautogui.write(campo_texto)  # Usar write para melhor suporte a caracteres especiais
+        pyautogui.hotkey('ctrl', 'a')
+        time.sleep(0.5)
+        pyautogui.click(inserir_texto['campo_fonte'])
+        time.sleep(0.2)
+        pyautogui.click(inserir_texto['fonte_courier'])
+        time.sleep(0.5)
+        pyautogui.click(inserir_texto['tamanho_16'])
+        time.sleep(0.5)
+        pyautogui.click(inserir_texto['salvar'])
+    except Exception as e:
+        messagebox.showerror("Erro", f"Erro ao cadastrar e inserir texto: {e}")
 
 def selecionar_entrada():
     global caminho_entrada
-    arquivo = filedialog.askopenfile(title="Selecione a planilha para analisar!")
+    arquivo = filedialog.askopenfile(title="Selecione a planilha para analisar!", filetypes=[("Excel files", "*.xlsx")])
     if arquivo:
         caminho_entrada = arquivo.name
 
-def extrair_dados(matricula):
+def extrair_dados():
     global caminho_entrada
-    workbook = xl.load_workbook(caminho_entrada)
-    planilha = workbook.active
+    try:
+        workbook = xl.load_workbook(caminho_entrada)
+        planilha = workbook.active
 
-    for rows in planilha.iter_rows(min_row=2, values_only=True):
-        num_apont = rows[0]
-        campo_data = rows[1]
-        tipo_de_apont = rows[2]
-        campo_texto = rows[3]
+        matricula = entrada_matricula.get()  # Pegando a matrícula
         
-        cadastrar(matricula, num_apont, tipo_de_apont)
-        inserir_texto(campo_data, campo_texto)
+        for rows in planilha.iter_rows(min_row=2, values_only=True):
+            inserir_data = str(rows[0]) if rows[0] is not None else ""
+            num_apont = str(rows[1]) if rows[1] is not None else ""
+            tipo_de_apont = str(rows[2]) if rows[2] is not None else ""
+            campo_texto = str(rows[3]) if rows[3] is not None else ""
+
+            print(inserir_data, num_apont, tipo_de_apont, campo_texto)
+            
+            cadastrar(matricula, num_apont, tipo_de_apont, inserir_data, campo_texto)
+    except Exception as e:
+        messagebox.showerror("Erro", f"Erro ao extrair dados: {e}")
 
 def iniciar_programa():
     matricula = entrada_matricula.get()
@@ -117,7 +124,7 @@ def iniciar_programa():
         selecionar_entrada()
     
     if caminho_entrada:
-        extrair_dados(matricula)
+        extrair_dados()
         messagebox.showinfo("Concluído", "Processo concluído com sucesso!")
     else:
         messagebox.showerror("Erro", "Nenhum arquivo selecionado.")
