@@ -17,6 +17,7 @@
 
 import time
 import pyautogui
+import pyperclip  # Importa o módulo pyperclip
 import openpyxl as xl
 import tkinter as tk
 from tkinter import filedialog, messagebox
@@ -46,37 +47,42 @@ inserir_texto = {
     'salvar': (1047, 648)
 }
 
-def cadastrar(matricula, num_apont, tipo_de_apont, inserir_data, campo_texto):
+def cadastrar(matricula, numero_apont, tipo_de_apont, inserir_data, campo_texto):
     try:
         # Cadastro do apontamento
         pyautogui.click(cadastrar_apont['campo_mat'])
         time.sleep(0.5)
+        pyautogui.write(matricula, interval=0.1)  # Usar write para melhor suporte a caracteres especiais
+        time.sleep(0.5)
+        
         pyautogui.click(cadastrar_apont['campo_apont'])
         time.sleep(0.5)
         pyautogui.click(cadastrar_apont['cadastrar_apont'])
         time.sleep(0.5)
         pyautogui.click(cadastrar_apont['num_mat'])
-        pyautogui.write(matricula, interval=0.25)  # Usar write para melhor suporte a caracteres especiais
+        pyautogui.write(matricula, interval=0.1)  # Usar write para melhor suporte a caracteres especiais
         time.sleep(0.5)
         
         if tipo_de_apont == "1":
             pyautogui.click(cadastrar_apont['num_apont'])
-            pyautogui.write(num_apont, interval=0.25)  # Usar write para melhor suporte a caracteres especiais
+            pyautogui.write(numero_apont, interval=0.25)  # Usar write para melhor suporte a caracteres especiais
         else:
             pyautogui.click(cadastrar_apont['verif_averb'])
             pyautogui.click(cadastrar_apont['selecionar_averbação'])
             pyautogui.click(cadastrar_apont['num_apont'])
-            pyautogui.write(num_apont, interval=0.25)  # Usar write para melhor suporte a caracteres especiais
+            pyautogui.write(numero_apont, interval=0.25)  # Usar write para melhor suporte a caracteres especiais
 
         pyautogui.click(cadastrar_apont['click_cadastrar'])
+        time.sleep(1)
 
         # Inserção de texto
         pyautogui.click(inserir_texto['campo_inserir_data'])
         pyautogui.write(inserir_data, interval=0.25)  # Usar write para melhor suporte a caracteres especiais
         time.sleep(0.5)
         pyautogui.click(inserir_texto['campo_texto'])
-        pyautogui.write(campo_texto)  # Usar write para melhor suporte a caracteres especiais
-        pyautogui.hotkey('ctrl', 'a')
+        pyperclip.copy(campo_texto)  # Copia o texto para a área de transferência
+        pyautogui.hotkey('ctrl', 'v')  # Cola o texto
+        #pyautogui.hotkey('ctrl', 'a')
         time.sleep(0.5)
         pyautogui.click(inserir_texto['campo_fonte'])
         time.sleep(0.2)
@@ -103,14 +109,14 @@ def extrair_dados():
         matricula = entrada_matricula.get()  # Pegando a matrícula
         
         for rows in planilha.iter_rows(min_row=2, values_only=True):
-            inserir_data = str(rows[0]) if rows[0] is not None else ""
-            num_apont = str(rows[1]) if rows[1] is not None else ""
+            inserir_data  = str(rows[0]) if rows[0] is not None else ""
+            numero_apont  = str(rows[1]) if rows[1] is not None else ""
             tipo_de_apont = str(rows[2]) if rows[2] is not None else ""
-            campo_texto = str(rows[3]) if rows[3] is not None else ""
+            campo_texto   = str(rows[3]) if rows[3] is not None else ""
 
-            print(inserir_data, num_apont, tipo_de_apont, campo_texto)
+            print(inserir_data, numero_apont, tipo_de_apont, campo_texto)
             
-            cadastrar(matricula, num_apont, tipo_de_apont, inserir_data, campo_texto)
+            cadastrar(matricula, numero_apont, tipo_de_apont, inserir_data, campo_texto)
     except Exception as e:
         messagebox.showerror("Erro", f"Erro ao extrair dados: {e}")
 
