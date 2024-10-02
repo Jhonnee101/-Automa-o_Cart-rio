@@ -27,19 +27,22 @@ def contador():
         #pyautogui.write(str(matricula))
         #pyautogui.press('enter')
         time.sleep(0.5)
-        mat_existe = pyautogui.locateOnScreen('testes/teste de imagem/teste.png')
+        try:
+            mat_existe = pyautogui.locateOnScreen('testes/imagens/teste5.png')
 
-        if mat_existe:
+            if mat_existe:
                 mat_concluidas += 1
                 mat_concluidas_lista.append(matricula)
                 print(f'Matrícula {matricula} concluída')
                 print("Imagem encontrada!")
-                
-        elif mat_existe == None:
-                mat_para_fazer += 1
-                mat_para_fazer_lista.append(matricula)
-                print(f'Matrícula {matricula} não concluída')
-                print("Imagem não encontrada.")
+
+
+        except Exception:
+            mat_para_fazer += 1
+            mat_para_fazer_lista.append(matricula)
+            print(f'Matrícula {matricula} não concluída')
+            print("Imagem não encontrada!")
+            pass
         
         matricula += 1
 
@@ -49,3 +52,4 @@ def contador():
     print(f"Matrículas não concluídas: {mat_para_fazer_lista}")
 
 contador()
+
