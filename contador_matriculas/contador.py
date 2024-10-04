@@ -28,7 +28,7 @@ def contador():
         #pyautogui.press('enter')
         time.sleep(0.5)
         try:
-            mat_existe = pyautogui.locateOnScreen('testes/imagens/teste5.png')
+            mat_existe = pyautogui.locateOnScreen('testes/imagens/teste6.png')
 
             if mat_existe:
                 mat_concluidas += 1

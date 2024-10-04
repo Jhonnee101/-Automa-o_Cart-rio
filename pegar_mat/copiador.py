@@ -29,10 +29,14 @@ def buscar_matricula(matricula):
     time.sleep(0.8)
     pyautogui.click(app_coords['campo_copiar'])
     time.sleep(0.8)
-    pyautogui.hotkey('ctrl', 'c')
-    time.sleep(0.8)
-    conteudo_copiado = pyperclip.paste()
-    return conteudo_copiado
+    try:
+        pyautogui.hotkey('ctrl', 'c')
+        time.sleep(0.8)
+        conteudo_copiado = pyperclip.paste()
+        return conteudo_copiado
+    except:
+        conteudo_copiado = "Erro ao copiar essa matricula pois tem conteudo reservado, favor verificar manualmente"
+        return conteudo_copiado
 
 # Função chamada quando o botão Salvar é pressionado
 def salvar_matriculas():
